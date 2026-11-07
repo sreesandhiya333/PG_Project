@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                📊 Prediction History
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if predictions %}
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Date & Time</th>
+
+                        <th>Prediction (kW)</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for record in predictions %}
+
+                    <tr>
+
+                        <td>{{ record.created_at }}</td>
+
+                        <td>{{ record.prediction }}</td>
+
+                        <td>
+
+                            {% if record.prediction < 4 %}
+
+                                🟢 Low
+
+                            {% elif record.prediction < 8 %}
+
+                                🟡 Moderate
+
+                            {% else %}
+
+                                🔴 High
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No Prediction History Available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,708 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Smart Energy Analytics
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =========================================
+       MAIN PAGE - BLUE THEME
+    ========================================= */
+
+    body {
+        background: #071a3d !important;
+    }
+
+    .container {
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 35px 20px 70px !important;
+    }
+
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .hero-text {
+        text-align: center !important;
+        margin-bottom: 30px !important;
+    }
+
+    .hero-text h1 {
+        margin: 0 !important;
+        color: #ffffff !important;
+        font-size: 42px !important;
+        font-weight: 800 !important;
+    }
+
+
+    /* =========================================
+       FORM CARD
+    ========================================= */
+
+    .hero-form {
+        width: 100% !important;
+        max-width: 1100px !important;
+        margin: 0 auto !important;
+        padding: 32px !important;
+
+        box-sizing: border-box !important;
+
+        background: #0c2348 !important;
+
+        border: 1px solid #234d86 !important;
+
+        border-radius: 18px !important;
+
+        box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.25),
+            0 0 25px rgba(30, 110, 255, 0.08) !important;
+    }
+
+
+    /* =========================================
+       LABELS
+    ========================================= */
+
+    .hero-form label {
+        display: block !important;
+        margin-bottom: 7px !important;
+
+        color: #dbeafe !important;
+
+        font-size: 15px !important;
+        font-weight: 600 !important;
+    }
+
+
+    /* =========================================
+       INPUTS
+    ========================================= */
+
+    .hero-form input {
+        width: 100% !important;
+
+        padding: 13px 14px !important;
+
+        box-sizing: border-box !important;
+
+        border-radius: 9px !important;
+
+        border: 1px solid #31598e !important;
+
+        background: #102d57 !important;
+
+        color: #ffffff !important;
+
+        font-size: 15px !important;
+
+        transition: 0.2s ease !important;
+    }
+
+    .hero-form input:focus {
+        outline: none !important;
+
+        border-color: #3b82f6 !important;
+
+        background: #123461 !important;
+
+        box-shadow:
+            0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+    }
+
+
+    /* =========================================
+       PREDICT BUTTON
+    ========================================= */
+
+    .hero-form button.btn-primary {
+        display: block !important;
+
+        width: 100% !important;
+
+        margin-top: 10px !important;
+
+        padding: 16px 20px !important;
+
+        border: none !important;
+
+        border-radius: 10px !important;
+
+        background: linear-gradient(
+            90deg,
+            #1976ff 0%,
+            #4f46e5 100%
+        ) !important;
+
+        color: #ffffff !important;
+
+        font-size: 17px !important;
+
+        font-weight: 700 !important;
+
+        cursor: pointer !important;
+
+        box-shadow:
+            0 8px 22px rgba(37, 99, 235, 0.25) !important;
+
+        transition: all 0.25s ease !important;
+    }
+
+    .hero-form button.btn-primary:hover {
+        transform: translateY(-2px) !important;
+
+        box-shadow:
+            0 12px 30px rgba(37, 99, 235, 0.40) !important;
+    }
+
+
+    /* =========================================
+       RESULT CARD
+       CARD REMAINS BLUE
+    ========================================= */
+
+    .container .result-card {
+
+        display: block !important;
+
+        width: 650px !important;
+
+        max-width: 92% !important;
+
+        margin: 55px auto 40px auto !important;
+
+        padding: 45px 35px !important;
+
+        box-sizing: border-box !important;
+
+        text-align: center !important;
+
+        background:
+            linear-gradient(
+                145deg,
+                #102e59 0%,
+                #0a2144 100%
+            ) !important;
+
+        border: 1px solid #3b82f6 !important;
+
+        border-radius: 20px !important;
+
+        box-shadow:
+            0 0 25px rgba(59, 130, 246, 0.16),
+            0 18px 50px rgba(0, 0, 0, 0.35) !important;
+    }
+
+
+    /* =========================================
+       RESULT TITLE
+    ========================================= */
+
+    .container .result-card h2 {
+
+        margin: 0 0 25px 0 !important;
+
+        color: #ffffff !important;
+
+        font-size: 27px !important;
+
+        font-weight: 700 !important;
+    }
+
+
+    /* =========================================
+       PREDICTION VALUE
+       DEFAULT BLUE
+    ========================================= */
+
+    .container .result-card .result-value {
+
+        display: block !important;
+
+        margin: 10px 0 30px 0 !important;
+
+        color: #60a5fa !important;
+
+        font-size: 76px !important;
+
+        line-height: 1.1 !important;
+
+        font-weight: 800 !important;
+
+        letter-spacing: -2px !important;
+
+        text-align: center !important;
+    }
+
+
+    .container .result-card .result-value span {
+
+        color: #dbeafe !important;
+
+        font-size: 30px !important;
+
+        font-weight: 600 !important;
+
+        letter-spacing: 0 !important;
+    }
+
+
+    /* =========================================
+       STATUS COMMON
+    ========================================= */
+
+    .container .result-card .status {
+
+        display: inline-block !important;
+
+        margin: 0 auto 20px auto !important;
+
+        padding: 10px 23px !important;
+
+        border-radius: 9px !important;
+
+        font-size: 18px !important;
+
+        font-weight: 700 !important;
+    }
+
+
+    /* =========================================
+       LOW - GREEN
+    ========================================= */
+
+    .container .result-card .status.low {
+
+        color: #4ade80 !important;
+
+        background: rgba(34, 197, 94, 0.10) !important;
+
+        border: 1px solid rgba(74, 222, 128, 0.45) !important;
+    }
+
+
+    .container .result-card .result-value.low-value {
+
+        color: #4ade80 !important;
+
+        text-shadow:
+            0 0 18px rgba(74, 222, 128, 0.20) !important;
+    }
+
+
+    /* =========================================
+       MODERATE - YELLOW
+    ========================================= */
+
+    .container .result-card .status.medium {
+
+        color: #facc15 !important;
+
+        background: rgba(250, 204, 21, 0.10) !important;
+
+        border: 1px solid rgba(250, 204, 21, 0.45) !important;
+    }
+
+
+    .container .result-card .result-value.medium-value {
+
+        color: #facc15 !important;
+
+        text-shadow:
+            0 0 18px rgba(250, 204, 21, 0.20) !important;
+    }
+
+
+    /* =========================================
+       HIGH - RED
+    ========================================= */
+
+    .container .result-card .status.high {
+
+        color: #fb7185 !important;
+
+        background: rgba(244, 63, 94, 0.10) !important;
+
+        border: 1px solid rgba(251, 113, 133, 0.45) !important;
+    }
+
+
+    .container .result-card .result-value.high-value {
+
+        color: #fb7185 !important;
+
+        text-shadow:
+            0 0 18px rgba(251, 113, 133, 0.20) !important;
+    }
+
+
+    /* =========================================
+       MESSAGE
+    ========================================= */
+
+    .container .result-card p {
+
+        margin: 0 auto !important;
+
+        max-width: 500px !important;
+
+        color: #dbeafe !important;
+
+        font-size: 17px !important;
+
+        line-height: 1.6 !important;
+
+        text-align: center !important;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 768px) {
+
+        .container {
+            padding: 25px 15px 50px !important;
+        }
+
+        .hero-text h1 {
+            font-size: 30px !important;
+        }
+
+        .hero-form {
+            padding: 22px !important;
+        }
+
+        .container .result-card {
+            width: 95% !important;
+            padding: 35px 20px !important;
+        }
+
+        .container .result-card h2 {
+            font-size: 22px !important;
+        }
+
+        .container .result-card .result-value {
+            font-size: 55px !important;
+        }
+
+        .container .result-card .result-value span {
+            font-size: 23px !important;
+        }
+
+    }
+
+</style>
+
+
+<div class="container">
+
+    <!-- =====================================
+         HEADING
+    ====================================== -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                ⚡ Electricity Demand Forecasting
+            </h1>
+
+        </div>
+
+
+        <!-- =================================
+             INPUT FORM
+        ================================= -->
+
+        <div class="hero-form">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Global Reactive Power
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.001"
+                            name="global_reactive_power"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Voltage
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="voltage"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Global Intensity
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="global_intensity"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 1
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_1"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 2
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_2"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 3
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_3"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Hour
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="hour"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Day
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="day"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Month
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="month"
+                            required>
+
+                    </div>
+
+
+                    <div class="col-md-12 mb-3">
+
+                        <label>
+                            Year
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="year"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     PREDICT BUTTON
+                ================================== -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    ⚡ Predict Electricity Demand
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         DYNAMIC PREDICTION RESULT
+    ====================================== -->
+
+    {% if prediction %}
+
+    <div class="result-card">
+
+        <h2>
+            ⚡ Electricity Demand Prediction
+        </h2>
+
+
+        <!-- LOW -->
+
+        {% if prediction < 4 %}
+
+        <div class="result-value low-value">
+
+            {{ prediction|floatformat:3 }}
+
+            <span>kW</span>
+
+        </div>
+
+        <div class="status low">
+
+            🟢 Low Demand
+
+        </div>
+
+        <p>
+
+            Electricity usage is within the normal range.
+
+        </p>
+
+
+        <!-- MODERATE -->
+
+        {% elif prediction < 8 %}
+
+        <div class="result-value medium-value">
+
+            {{ prediction|floatformat:3 }}
+
+            <span>kW</span>
+
+        </div>
+
+        <div class="status medium">
+
+            🟡 Moderate Demand
+
+        </div>
+
+        <p>
+
+            Electricity usage is at a moderate level.
+            Continue monitoring your consumption.
+
+        </p>
+
+
+        <!-- HIGH -->
+
+        {% else %}
+
+        <div class="result-value high-value">
+
+            {{ prediction|floatformat:3 }}
+
+            <span>kW</span>
+
+        </div>
+
+        <div class="status high">
+
+            🔴 High Demand
+
+        </div>
+
+        <p>
+
+            High electricity demand detected.
+            Please reduce unnecessary appliance usage.
+
+        </p>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

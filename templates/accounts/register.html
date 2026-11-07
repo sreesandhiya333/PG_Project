@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Register | Smart Energy Analytics</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(35, 91, 180, 0.30),
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(20, 75, 160, 0.25),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #061633,
+                    #0a2047,
+                    #071a38
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+        }
+
+
+        /* Main Authentication Area */
+
+        .auth-container {
+
+            width: 100%;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px;
+
+        }
+
+
+        /* Register Card */
+
+        .register-card {
+
+            width: 440px;
+
+            max-width: 100%;
+
+            padding: 42px 40px;
+
+            background:
+                rgba(15, 39, 78, 0.94);
+
+            border:
+                1px solid
+                rgba(73, 132, 218, 0.45);
+
+            border-radius: 24px;
+
+            box-shadow:
+
+                0 25px 60px
+                rgba(0, 0, 0, 0.45),
+
+                0 0 35px
+                rgba(30, 91, 180, 0.12);
+
+            backdrop-filter: blur(10px);
+
+        }
+
+
+        /* Logo */
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .logo-icon {
+
+            font-size: 34px;
+
+            margin-right: 8px;
+
+        }
+
+
+        .logo-text {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: #eaf3ff;
+
+        }
+
+
+        /* Heading */
+
+        .register-title {
+
+            text-align: center;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            margin-top: 18px;
+
+            margin-bottom: 10px;
+
+            color: #ffffff;
+
+        }
+
+
+        .register-subtitle {
+
+            text-align: center;
+
+            font-size: 15px;
+
+            line-height: 1.5;
+
+            color: #a9bfdc;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        /* Form */
+
+        .form-group {
+
+            margin-bottom: 19px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: #e7f0fc;
+
+            margin-bottom: 9px;
+
+        }
+
+
+        /* Input */
+
+        .form-input {
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            background: #142e57;
+
+            border: 1px solid #315684;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .form-input::placeholder {
+
+            color: #7892b5;
+
+        }
+
+
+        .form-input:focus {
+
+            border-color: #4d91e8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(55, 126, 218, 0.16);
+
+            background: #17345f;
+
+        }
+
+
+        /* Register Button */
+
+        .register-button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            margin-top: 6px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1d65c1,
+                    #3289e6
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(29, 101, 193, 0.28);
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .register-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(29, 101, 193, 0.38);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2874d0,
+                    #4298ed
+                );
+
+        }
+
+
+        .register-button:active {
+
+            transform: translateY(0);
+
+        }
+
+
+        /* Login Section */
+
+        .login-section {
+
+            text-align: center;
+
+            margin-top: 27px;
+
+            font-size: 14px;
+
+            color: #9fb5d2;
+
+        }
+
+
+        .login-link {
+
+            color: #59a4f5;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            margin-left: 5px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .login-link:hover {
+
+            color: #8bc5ff;
+
+            text-decoration: underline;
+
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            .auth-container {
+
+                padding: 18px;
+
+            }
+
+
+            .register-card {
+
+                padding: 32px 24px;
+
+                border-radius: 20px;
+
+            }
+
+
+            .register-title {
+
+                font-size: 29px;
+
+            }
+
+
+            .logo-text {
+
+                font-size: 19px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="auth-container">
+
+
+    <div class="register-card">
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1 class="register-title">
+
+            Create Account
+
+        </h1>
+
+
+        <p class="register-subtitle">
+
+            Create your account to start monitoring
+            your household energy usage
+
+        </p>
+
+
+        <!-- Register Form -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- Username -->
+
+            <div class="form-group">
+
+                <label for="username">
+
+                    Username
+
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+
+                    Email Address
+
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    placeholder="Enter your email address"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="Create a password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Register Button -->
+
+            <button
+                type="submit"
+                class="register-button"
+            >
+
+                Create your account
+
+            </button>
+
+
+        </form>
+
+
+        <!-- Login -->
+
+        <div class="login-section">
+
+            Already have an account?
+
+            <a
+                href="/login/"
+                class="login-link"
+            >
+
+                Login
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

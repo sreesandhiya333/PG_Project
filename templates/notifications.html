@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">🔔 Energy Alerts</h2>
+
+    {% if alerts %}
+
+        {% for alert in alerts %}
+
+            {% if alert.status == "High" %}
+
+                <div class="alert alert-danger shadow-sm">
+                    <strong>🔴 High Usage Alert</strong>
+                    <br>
+                    {{ alert.message }}
+                    <br>
+                    <small>{{ alert.created_at }}</small>
+                </div>
+
+            {% elif alert.status == "Moderate" %}
+
+                <div class="alert alert-warning shadow-sm">
+                    <strong>🟡 Moderate Usage Alert</strong>
+                    <br>
+                    {{ alert.message }}
+                    <br>
+                    <small>{{ alert.created_at }}</small>
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="alert alert-success shadow-sm">
+            🟢 No energy alerts at the moment.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

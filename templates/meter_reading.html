@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Meter Reading
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Meter Reading Form -->
+
+    <div class="card p-4 shadow-sm">
+
+        <h2 class="mb-4">
+            ⚡ Meter Reading
+        </h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Current Meter Reading
+                </label>
+
+                <input
+                    type="number"
+                    step="0.01"
+                    name="reading"
+                    class="form-control"
+                    placeholder="Enter current meter reading"
+                    required
+                >
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Reading Date
+                </label>
+
+                <input
+                    type="date"
+                    name="reading_date"
+                    class="form-control"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Save Reading
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Latest Saved Reading -->
+
+    {% if latest_reading %}
+
+    <div class="card p-4 shadow-sm mt-4 text-center">
+
+        <h3 class="mb-3">
+             Reading Saved ✅
+        </h3>
+
+        <div class="display-4 fw-bold">
+            {{ latest_reading.reading }}
+        </div>
+
+        <p class="mt-2 mb-0">
+            kWh
+        </p>
+
+        <p class="text-muted mt-2">
+            Reading Date:
+            {{ latest_reading.reading_date }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

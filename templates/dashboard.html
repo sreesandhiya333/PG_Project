@@ -1,0 +1,864 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard | Smart Energy Analytics
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ================= DASHBOARD HEADER ================= -->
+
+<div class="dashboard-header">
+
+    <div class="dashboard-title">
+
+        <h1>
+            Energy Analytics Dashboard
+        </h1>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SUMMARY CARDS ================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- TOTAL -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="analytics-card card-blue">
+
+            <div class="card-icon">
+                ⚡
+            </div>
+
+            <div>
+
+                <p>
+                    Total Predictions
+                </p>
+
+                <h2>
+                    {{ total_predictions }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AVERAGE -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="analytics-card card-green">
+
+            <div class="card-icon">
+                📈
+            </div>
+
+            <div>
+
+                <p>
+                    Average Demand
+                </p>
+
+                <h2>
+
+                    {% if average_prediction %}
+
+                        {{ average_prediction|floatformat:2 }}
+
+                        <span>kW</span>
+
+                    {% else %}
+
+                        0.00
+                        <span>kW</span>
+
+                    {% endif %}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGHEST -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="analytics-card card-orange">
+
+            <div class="card-icon">
+                🔥
+            </div>
+
+            <div>
+
+                <p>
+                    Highest Demand
+                </p>
+
+                <h2>
+
+                    {% if highest_prediction %}
+
+                        {{ highest_prediction|floatformat:2 }}
+
+                        <span>kW</span>
+
+                    {% else %}
+
+                        0.00
+                        <span>kW</span>
+
+                    {% endif %}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LATEST -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="analytics-card card-purple">
+
+            <div class="card-icon">
+                🕒
+            </div>
+
+            <div>
+
+                <p>
+                    Latest Prediction
+                </p>
+
+                <h2>
+
+                    {% if latest_prediction %}
+
+                        {{ latest_prediction.prediction|floatformat:2 }}
+
+                        <span>kW</span>
+
+                    {% else %}
+
+                        --
+
+                    {% endif %}
+
+                </h2>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CHART SECTION ================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- LINE CHART -->
+
+    <div class="col-lg-8">
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h4>
+                        📈 Prediction Trend
+                    </h4>
+
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="predictionChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PIE CHART -->
+
+    <div class="col-lg-4">
+
+        <div class="dashboard-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h4>
+                        🥧 Demand Overview
+                    </h4>
+
+                </div>
+
+            </div>
+
+            <div class="pie-container">
+
+                <canvas id="demandPieChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DYNAMIC INFO SECTION ================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- ================= ENERGY EFFICIENCY ================= -->
+
+    <div class="col-lg-4 col-md-6">
+
+        <div class="info-panel efficiency-panel">
+
+            <div class="info-icon">
+                ⚡
+            </div>
+
+            <h4>
+                Energy Efficiency
+            </h4>
+
+
+            {% if latest_prediction %}
+
+
+                <!-- HIGH -->
+
+                {% if latest_prediction.prediction >= 8 %}
+
+                    <div class="efficiency-score">
+                        40
+                        <span>/ 100</span>
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:40%">
+
+                        </div>
+
+                    </div>
+
+                    <p class="status-high">
+                        🔴 Low Efficiency
+                    </p>
+
+                <!-- MODERATE -->
+
+                {% elif latest_prediction.prediction >= 4 %}
+
+                    <div class="efficiency-score">
+                        65
+                        <span>/ 100</span>
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:65%">
+
+                        </div>
+
+                    </div>
+
+                    <p class="status-medium">
+                        🟡 Moderate Efficiency
+                    </p>
+
+                <!-- LOW -->
+
+                {% else %}
+
+                    <div class="efficiency-score">
+                        85
+                        <span>/ 100</span>
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:85%">
+
+                        </div>
+
+                    </div>
+
+                    <p class="status-good">
+                        🟢 Good Efficiency
+                    </p>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <div class="efficiency-score">
+                    --
+                    <span>/ 100</span>
+                </div>
+
+                <p>
+                    No prediction available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= USAGE STATUS ================= -->
+
+    <div class="col-lg-4 col-md-6">
+
+        <div class="info-panel alert-panel">
+
+            <div class="info-icon">
+                🚨
+            </div>
+
+            <h4>
+                Usage Status
+            </h4>
+
+
+            {% if latest_prediction %}
+
+
+                <!-- HIGH -->
+
+                {% if latest_prediction.prediction >= 8 %}
+
+                    <div class="alert-status status-high">
+                        🔴 High Demand
+                    </div>
+
+                    <p>
+                        Electricity usage is higher than the normal range.
+                    </p>
+
+                <!-- MODERATE -->
+
+                {% elif latest_prediction.prediction >= 4 %}
+
+                    <div class="alert-status status-medium">
+                        🟡 Moderate
+                    </div>
+
+                    <p>
+                        Electricity usage is at a moderate level.
+                    </p>
+
+                <!-- LOW -->
+
+                {% else %}
+
+                    <div class="alert-status status-low">
+                        🟢 Normal
+                    </div>
+
+                    <p>
+                        No unusual consumption detected.
+                    </p>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <div class="alert-status">
+                    --
+                </div>
+
+                <p>
+                    No prediction available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ENERGY RECOMMENDATION ================= -->
+
+    <div class="col-lg-4 col-md-6">
+
+        <div class="info-panel recommendation-panel">
+
+            <div class="info-icon">
+                🤖
+            </div>
+
+            <h4>
+                Energy Recommendation
+            </h4>
+
+
+            {% if latest_prediction %}
+
+
+                <!-- HIGH DEMAND -->
+
+                {% if latest_prediction.prediction >= 8 %}
+
+                    <ul>
+
+                        <li>
+                            Reduce the use of high-power appliances.
+                        </li>
+
+                        <li>
+                            Switch off unnecessary appliances immediately.
+                        </li>
+
+                        <li>
+                            Check for unusual electricity consumption.
+                        </li>
+
+                    </ul>
+
+
+                <!-- MODERATE DEMAND -->
+
+                {% elif latest_prediction.prediction >= 4 %}
+
+                    <ul>
+
+                        <li>
+                            Reduce the usage of high-power appliances.
+                        </li>
+
+                        <li>
+                            Avoid using multiple high-power appliances together.
+                        </li>
+
+                        <li>
+                            Monitor your electricity consumption regularly.
+                        </li>
+
+                    </ul>
+
+
+                <!-- LOW DEMAND -->
+
+                {% else %}
+
+                    <ul>
+
+                        <li>
+                            Switch off unused appliances.
+                        </li>
+
+                        <li>
+                            Prefer energy-efficient appliances.
+                        </li>
+
+                        <li>
+                            Avoid unnecessary standby power.
+                        </li>
+
+                    </ul>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <p>
+                    No recommendation available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= RECENT PREDICTIONS ================= -->
+
+<div class="dashboard-panel mb-5">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h4>
+                📋 Recent Predictions
+            </h4>
+
+        </div>
+
+        <a href="/history/"
+           class="view-history-btn">
+
+            View History →
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table custom-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Time
+                    </th>
+
+                    <th>
+                        Demand
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in recent_predictions %}
+
+                <tr>
+
+                    <td>
+                        {{ item.created_at|date:"d-m-Y" }}
+                    </td>
+
+                    <td>
+                        {{ item.created_at|date:"H:i" }}
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            {{ item.prediction|floatformat:2 }}
+                            kW
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+
+                        {% if item.prediction >= 8 %}
+
+                            <span class="status-high">
+                                🔴 High
+                            </span>
+
+                        {% elif item.prediction >= 4 %}
+
+                            <span class="status-medium">
+                                🟡 Moderate
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-low">
+                                🟢 Low
+                            </span>
+
+                        {% endif %}
+
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4"
+                        class="text-center py-4">
+
+                        No prediction records available.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+
+<!-- ================= CHART SCRIPTS ================= -->
+
+{% block scripts %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* ================= LINE CHART ================= */
+
+    const lineCanvas =
+        document.getElementById("predictionChart");
+
+
+    if (lineCanvas && typeof Chart !== "undefined") {
+
+        const lineCtx =
+            lineCanvas.getContext("2d");
+
+
+        const labels = [
+
+            {% for label in chart_labels %}
+
+                "{{ label }}"{% if not forloop.last %},{% endif %}
+
+            {% endfor %}
+
+        ];
+
+
+        const values = [
+
+            {% for value in chart_data %}
+
+                {{ value }}{% if not forloop.last %},{% endif %}
+
+            {% endfor %}
+
+        ];
+
+
+        new Chart(lineCtx, {
+
+            type: "line",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label:
+                        "Electricity Demand (kW)",
+
+                    data: values,
+
+                    borderWidth: 3,
+
+                    tension: 0.4,
+
+                    fill: true,
+
+                    pointRadius: 5
+
+                }]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text: "Demand (kW)"
+
+                        }
+
+                    },
+
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text: "Date"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    /* ================= PIE CHART ================= */
+
+    const pieCanvas =
+        document.getElementById("demandPieChart");
+
+
+    if (pieCanvas && typeof Chart !== "undefined") {
+
+        const pieCtx =
+            pieCanvas.getContext("2d");
+
+
+        const pieValues = [
+
+            {% for value in chart_data %}
+
+                {{ value }}{% if not forloop.last %},{% endif %}
+
+            {% endfor %}
+
+        ];
+
+
+        const pieLabels = [
+
+            {% for label in chart_labels %}
+
+                "{{ label }}"{% if not forloop.last %},{% endif %}
+
+            {% endfor %}
+
+        ];
+
+
+        new Chart(pieCtx, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: pieLabels,
+
+                datasets: [{
+
+                    data: pieValues,
+
+                    borderWidth: 2
+
+                }]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

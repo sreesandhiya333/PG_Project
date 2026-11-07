@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Smart Energy Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                ⚡ Electricity Demand Forecasting
+            </h1>
+
+        </div>
+
+
+        <!-- ================= INPUT FORM ================= -->
+
+        <div class="hero-form">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Global Reactive Power -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Global Reactive Power
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.001"
+                            name="global_reactive_power"
+                            required>
+
+                    </div>
+
+
+                    <!-- Voltage -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Voltage
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="voltage"
+                            required>
+
+                    </div>
+
+
+                    <!-- Global Intensity -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Global Intensity
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="global_intensity"
+                            required>
+
+                    </div>
+
+
+                    <!-- Sub Metering 1 -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 1
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_1"
+                            required>
+
+                    </div>
+
+
+                    <!-- Sub Metering 2 -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 2
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_2"
+                            required>
+
+                    </div>
+
+
+                    <!-- Sub Metering 3 -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>
+                            Sub Metering 3
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            step="0.01"
+                            name="sub_metering_3"
+                            required>
+
+                    </div>
+
+
+                    <!-- Hour -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Hour
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="hour"
+                            required>
+
+                    </div>
+
+
+                    <!-- Day -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Day
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="day"
+                            required>
+
+                    </div>
+
+
+                    <!-- Month -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>
+                            Month
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="month"
+                            required>
+
+                    </div>
+
+
+                    <!-- Year -->
+
+                    <div class="col-md-12 mb-3">
+
+                        <label>
+                            Year
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            name="year"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Predict Button -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    ⚡ Predict Electricity Demand
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PREDICTION RESULT ================= -->
+
+    {% if prediction %}
+
+    <div class="result-card">
+
+        <h2>
+            ⚡ Electricity Demand Prediction
+        </h2>
+
+
+        <!-- Prediction Value -->
+
+        <div class="result-value">
+
+            {{ prediction|floatformat:3 }} kW
+
+        </div>
+
+
+        <!-- HIGH DEMAND -->
+
+        {% if prediction >= 8 %}
+
+        <div class="status high">
+
+            🔴 High Demand
+
+        </div>
+
+        <p class="result-message">
+
+            High electricity demand detected.
+            Please reduce unnecessary appliance usage.
+
+        </p>
+
+
+        <!-- MODERATE DEMAND -->
+
+        {% elif prediction >= 4 %}
+
+        <div class="status medium">
+
+            🟡 Moderate Demand
+
+        </div>
+
+        <p class="result-message">
+
+            Electricity usage is at a moderate level.
+            Continue monitoring your consumption.
+
+        </p>
+
+
+        <!-- LOW DEMAND -->
+
+        {% else %}
+
+        <div class="status low">
+
+            🟢 Low Demand
+
+        </div>
+
+        <p class="result-message">
+
+            Electricity usage is within the normal range.
+
+        </p>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
